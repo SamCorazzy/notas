@@ -32,8 +32,10 @@ function App() {
     });
   };
 
+
+  let arregloNotas = JSON.parse(localStorage.getItem("notas")) || [];
+
   const handleClicGuardar = () => {
-    let arregloNotas = JSON.parse(localStorage.getItem("notas")) || [];
     arregloNotas.push(inputState);
     localStorage.setItem("notas", JSON.stringify(arregloNotas));
     handleResetChange();
@@ -51,9 +53,40 @@ function App() {
 
   return (
     <div className="App container">
-      <div className="row text-center">
+      <div className="row">
         <div className="col p-4">
-          <h3>Lista</h3>
+          <h3 className="text-center">Lista</h3>
+          {
+            arregloNotas.length === 0 ?
+            "Al momento no tienes notas guardadas. Puedes crear una en el formulario contiguo."
+            :
+            (
+              <ol>
+                {arregloNotas.map((item) => {
+                  return(
+                    <li>
+                      {item.titulo} ({item.fecha}) ({item.nota})
+                    </li>
+                  );
+                })
+                }
+              </ol>
+            )
+          }
+          {/* {
+            arregloNotas.length !== 0 &&(
+              <ol>
+                {arregloNotas.map((item) => {
+                  return(
+                    <li>
+                      {item.titulo} ({item.fecha}) ({item.nota})
+                    </li>
+                  );
+                })
+                }
+              </ol>
+            )
+          } */}
         </div>
         <div className="col text-center mx-auto p-4">
           <h3>Notas</h3>
