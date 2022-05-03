@@ -41,6 +41,17 @@ function App() {
     handleResetChange();
   };
 
+  const handleBorrarNota = (index) => {
+    const nuevoArreglo = [];
+    
+    arregloNotas.forEach((nota,i) => {
+      if(i !== index){
+        nuevoArreglo.push(nota);
+      }
+    });
+    localStorage.setItem("notas", JSON.stringify(nuevoArreglo));
+  };
+
   //  const handleChangeFecha = (event) => { 
   //   setFechaState(event.target.value);
   //   console.log(fechaState);
@@ -52,20 +63,24 @@ function App() {
   //  }
 
   return (
-    <div className="App container">
+    <div className="card shadow App container mt-4">
       <div className="row">
-        <div className="col p-4">
-          <h3 className="text-center">Lista</h3>
+        <div className="card col p-4">
+          <h3 className="text-center"><i class="bi bi-list-ol"></i> Lista</h3>
           {
             arregloNotas.length === 0 ?
             "Al momento no tienes notas guardadas. Puedes crear una en el formulario contiguo."
             :
             (
               <ol>
-                {arregloNotas.map((item) => {
+                {arregloNotas.map((item,index) => {
                   return(
                     <li>
-                      {item.titulo} ({item.fecha}) ({item.nota})
+                      {item.titulo} ({item.fecha}) ({item.nota})&nbsp;
+                      <i class="bi bi-x-circle-fill" 
+                      style={{color:"red", fontSize:"0.75rem", cursor:"pointer"}} 
+                      onClick={() => handleBorrarNota(index)}>{/*Para invocar la funcion inmediatamente*/}
+                      </i>
                     </li>
                   );
                 })
@@ -88,31 +103,34 @@ function App() {
             )
           } */}
         </div>
-        <div className="col text-center mx-auto p-4">
-          <h3>Notas</h3>
-          <label htmlFor="titulo" className="pe-4" style={{ width: "100%" }}>Input de titulo:</label>
+        <div className=" card col text-center mx-auto p-4">
+          <h3><i class="bi bi-person-plus-fill"></i> Notas</h3>
+          <label htmlFor="titulo" className="pe-4" style={{ width: "100%" }}><i class="bi bi-chat-left-text-fill"></i> Input de titulo:</label>
           <input
             id="titulo"
             name="titulo"
             type="text"
+            className="text-center"
             style={{ width: "100%" }}
             onChange={handleInputChange}
             value={inputState.titulo}
           /> <br /><br />
-          <label htmlFor="fecha" className="pe-4" style={{ width: "100%" }}>Input de fecha:</label>
+          <label htmlFor="fecha" className="pe-4" style={{ width: "100%" }}><i class="bi bi-calendar-event-fill"></i> Input de fecha:</label>
           <input
             id="fecha"
             name="fecha"
             type="date"
+            className="text-center"
             style={{ width: "100%" }}
             onChange={handleInputChange}
             value={inputState.fecha}
           /> <br /><br />
-          <label htmlFor="nota" className="pe-4" style={{ width: "100%" }}>Input de nota:</label>
+          <label htmlFor="nota" className="pe-4" style={{ width: "100%" }}><i class="bi bi-chat-square-dots-fill"></i> Input de nota:</label>
           <input
             id="nota"
             name="nota"
             type="text"
+            className="text-center"
             style={{ width: "100%" }}
             onChange={handleInputChange}
             value={inputState.nota}
@@ -122,13 +140,13 @@ function App() {
           <div className="ms-2 me-2 mt-2 row">
             <div className="col">
               <span className="row mx-1">
-                <button class="mx-auto" onClick={handleResetChange} style={{ marginLeft: "15px" }}>Borrar</button>
+                <button class="shadow mx-auto btn btn-outline-danger" onClick={handleResetChange} style={{ marginLeft: "15px" }}><i class="bi bi-eraser-fill"></i>Borrar</button>
               </span>
 
             </div>
             <div className="col">
               <span className="row mx-1">
-                <button class="mx-auto" onClick={handleClicGuardar} style={{ marginLeft: "15px" }}>Guardar</button>
+                <button class="shadow mx-auto btn btn-outline-success" onClick={handleClicGuardar} style={{ marginLeft: "15px" }}><i class="bi bi-pencil-fill"></i> Guardar</button>
               </span>
             </div>
           </div>
