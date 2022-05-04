@@ -10,6 +10,10 @@ function App() {
     fecha: "",
     nota: "",
   });
+
+  const initialState = JSON.parse(localStorage.getItem("notas")) || [];
+  const [notas, setNotas] = useState(initialState);
+
   // const [fechaState, setFechaState] = useState("Fecha");
   // const [notaState, setNotaState] = useState("Nota");
 
@@ -33,23 +37,23 @@ function App() {
   };
 
 
-  let arregloNotas = JSON.parse(localStorage.getItem("notas")) || [];
 
   const handleClicGuardar = () => {
-    arregloNotas.push(inputState);
-    localStorage.setItem("notas", JSON.stringify(arregloNotas));
+    setNotas([...notas, inputState]);
+    localStorage.setItem("notas", JSON.stringify(notas));
     handleResetChange();
   };
 
   const handleBorrarNota = (index) => {
     const nuevoArreglo = [];
     
-    arregloNotas.forEach((nota,i) => {
-      if(i !== index){
+    notas.forEach((nota,i) => {
+      if(index !== i){
         nuevoArreglo.push(nota);
       }
     });
     localStorage.setItem("notas", JSON.stringify(nuevoArreglo));
+    setNotas([...nuevoArreglo])
   };
 
   //  const handleChangeFecha = (event) => { 
@@ -68,14 +72,14 @@ function App() {
         <div className="card col p-4">
           <h3 className="text-center"><i class="bi bi-list-ol"></i> Lista</h3>
           {
-            arregloNotas.length === 0 ?
+            notas.length === 0 ?
             "Al momento no tienes notas guardadas. Puedes crear una en el formulario contiguo."
             :
             (
               <ol>
-                {arregloNotas.map((item,index) => {
+                {notas.map((item,index) => {
                   return(
-                    <li>
+                    <li key={index}>
                       {item.titulo} ({item.fecha}) ({item.nota})&nbsp;
                       <i class="bi bi-x-circle-fill" 
                       style={{color:"red", fontSize:"0.75rem", cursor:"pointer"}} 
@@ -110,27 +114,26 @@ function App() {
             id="titulo"
             name="titulo"
             type="text"
-            className="text-center"
+            className="text-center mb-3"
             style={{ width: "100%" }}
             onChange={handleInputChange}
             value={inputState.titulo}
-          /> <br /><br />
+          />
           <label htmlFor="fecha" className="pe-4" style={{ width: "100%" }}><i class="bi bi-calendar-event-fill"></i> Input de fecha:</label>
           <input
             id="fecha"
             name="fecha"
             type="date"
-            className="text-center"
+            className="text-center mb-3"
             style={{ width: "100%" }}
             onChange={handleInputChange}
             value={inputState.fecha}
           /> <br /><br />
           <label htmlFor="nota" className="pe-4" style={{ width: "100%" }}><i class="bi bi-chat-square-dots-fill"></i> Input de nota:</label>
-          <input
+          <textarea
             id="nota"
             name="nota"
-            type="text"
-            className="text-center"
+            className="text-center mb-3"
             style={{ width: "100%" }}
             onChange={handleInputChange}
             value={inputState.nota}
