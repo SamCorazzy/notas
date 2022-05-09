@@ -36,6 +36,11 @@ function App() {
     });
   };
 
+  const handleResetList = () => {
+    setNotas([]);
+    localStorage.setItem("notas", JSON.stringify([]));
+  };
+
 
 
   const handleClicGuardar = () => {
@@ -106,6 +111,26 @@ function App() {
               </ol>
             )
           } */}
+
+          <hr />
+          <div className="ms-2 me-2 mt-2 row">
+            <div className="col">
+              <span className="row mx-1">
+                <button 
+                class="shadow mx-auto btn btn-outline-danger" 
+                onClick={handleResetList} 
+                disabled={notas.length===0}
+                style={{ marginLeft: "15px" }}>
+                  <i class="bi bi-eraser-fill"></i>
+                  Borrar lista
+                  </button>
+              </span>
+
+            </div>
+            </div>
+
+
+
         </div>
         <div className=" card col text-center mx-auto p-4">
           <h3><i class="bi bi-person-plus-fill"></i> Notas</h3>
@@ -143,13 +168,23 @@ function App() {
           <div className="ms-2 me-2 mt-2 row">
             <div className="col">
               <span className="row mx-1">
-                <button class="shadow mx-auto btn btn-outline-danger" onClick={handleResetChange} style={{ marginLeft: "15px" }}><i class="bi bi-eraser-fill"></i>Borrar</button>
+                <button 
+                class="shadow mx-auto btn btn-outline-danger" 
+                disabled={inputState.titulo==="" || inputState.fecha==="" || inputState.nota===""} 
+                onClick={handleResetChange} style={{ marginLeft: "15px" }}>
+                <i class="bi bi-eraser-fill"></i>Borrar
+                </button>
               </span>
 
             </div>
             <div className="col">
               <span className="row mx-1">
-                <button class="shadow mx-auto btn btn-outline-success" onClick={handleClicGuardar} style={{ marginLeft: "15px" }}><i class="bi bi-pencil-fill"></i> Guardar</button>
+                <button 
+                class="shadow mx-auto btn btn-outline-success" 
+                disabled={inputState.titulo==="" || inputState.fecha==="" || inputState.nota===""} 
+                onClick={handleClicGuardar} 
+                style={{ marginLeft: "15px" }}>
+                <i class="bi bi-pencil-fill"></i> Guardar</button>
               </span>
             </div>
           </div>
