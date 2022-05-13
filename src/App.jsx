@@ -27,6 +27,10 @@ function App() {
     console.log(inputState);
   };
 
+  const handleClicNota = (index) =>{
+    setInputState({...notas[index]})
+  }
+
   const handleResetChange = () => {
     setInputState({
       ...inputState,
@@ -45,7 +49,7 @@ function App() {
 
   const handleClicGuardar = () => {
     setNotas([...notas, inputState]);
-    localStorage.setItem("notas", JSON.stringify(notas));
+    localStorage.setItem("notas", JSON.stringify([...notas, inputState]));
     handleResetChange();
   };
 
@@ -75,7 +79,7 @@ function App() {
     <div className="card shadow App container mt-4">
       <div className="row">
         <div className="card col p-4">
-          <h3 className="text-center"><i class="bi bi-list-ol"></i> Lista</h3>
+          <h3 className="text-center"><i class="bi bi-list-ol text-light bg-dark rounded px-1"></i> Lista</h3>
           {
             notas.length === 0 ?
             "Al momento no tienes notas guardadas. Puedes crear una en el formulario contiguo."
@@ -84,7 +88,7 @@ function App() {
               <ol>
                 {notas.map((item,index) => {
                   return(
-                    <li key={index}>
+                    <li key={index} onClick={() => handleClicNota(index)} style={{cursor:"pointer"}}>
                       {item.titulo} ({item.fecha}) ({item.nota})&nbsp;
                       <i class="bi bi-x-circle-fill" 
                       style={{color:"red", fontSize:"0.75rem", cursor:"pointer"}} 
